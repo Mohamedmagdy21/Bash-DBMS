@@ -1,3 +1,4 @@
+#! /usr/bin/bash
 
 mkdir -p ./databases   #Create Database if not exits
 PS3="DMS>>"

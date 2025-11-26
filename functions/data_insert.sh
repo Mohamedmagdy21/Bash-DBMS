@@ -1,3 +1,5 @@
+#! /usr/bin/bash
+
 PS3="DMS>>"
 
 echo "we are here"
@@ -53,7 +55,7 @@ while true
                fi   
                
                if [ "$isPk" == true ]; then
-                  existValues=$(cut -d':' -f"$i" "./databases/$DBName/$table")
+                  existValues=$(cut -d'|' -f"$i" "./databases/$DBName/$table")
                   
                  for value in $existValues
                    do
@@ -67,7 +69,7 @@ while true
                 if [ -z "$row" ]; then
                   row="$input"
                 else
-                  row="$row:$input"
+                  row="$row|$input"
                 fi
 
                 break  
@@ -78,7 +80,7 @@ while true
                
            
            
-           firstEmpty=$(grep -n '^$' ./databases/$DBName/$table | head -1 | cut -d: -f1 )
+           firstEmpty=$(grep -n '^$' ./databases/$DBName/$table | head -1 | cut -d'|' -f1 )
            if [ -n "$firstEmpty" ]; then
             # Replace that empty line with the full row
               sed -i "${firstEmpty}s/^$/$row/" "./databases/$DBName/$table"

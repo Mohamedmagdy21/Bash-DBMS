@@ -1,3 +1,5 @@
+#! /usr/bin/bash
+
 PS3="DMS>>"
 
 PS3="DMS>>"
