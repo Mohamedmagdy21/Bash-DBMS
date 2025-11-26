@@ -28,9 +28,9 @@ do
 
 			if [ -z "$pk_delete" ]; then
 				echo "Error: Primary key cannot be empty."
-			elif ! [[ $pk_type == "int" && "$pk_delete" =~ ^[0-9]+$ ]]; then
+			elif [[ $pk_type == "int" && ! "$pk_delete" =~ ^[0-9]+$ ]]; then
 				echo "Error: Invalid Primary Key. Integers only."
-			elif [[ $pk_type == "string" && "$pk_delete" =~ ^[a-zA-Z0-9_]+$ ]]; then
+			elif [[ $pk_type == "str" && ! "$pk_delete" =~ ^[a-zA-Z0-9_]+$ ]]; then
 				echo "Error: Invalid Primary Key. Use String and No spaces or special characters allowed."
 			else
 				# Input is valid
