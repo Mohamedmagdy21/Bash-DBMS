@@ -17,7 +17,7 @@ while true
            row=""
            sep=":"
            colsNum=$(grep -v '^$' "./databases/$DBName/$table.meta" | wc -l)
-           echo "$colsNum"
+           echo "Column Number: $colsNum"
            for i in $(seq 1 $colsNum)
              do
              lineContent=$(sed -n "${i}p" < ./databases/$DBName/$table.meta )
