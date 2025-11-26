@@ -14,6 +14,7 @@ while true
  echo "Enter 4 to insert into table:"
  echo "Enter 5 to select from table:"
  echo "enter 6 to update table:"
+ echo "enter 7 to delete from table:"
  echo -e "\n"
  echo -e "Enter your selection \c"
  
@@ -40,7 +41,9 @@ while true
        
     5) source ./functions/data_select.sh;;
     
-    6) source ./functions/data_select.sh;;
+    6) source ./functions/data_update.sh;;
+
+	7) source ./functions/data_delete.sh;;
   
   esac
   echo -e "enter return to continue \c"

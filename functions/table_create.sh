@@ -61,7 +61,7 @@ for ((i=1; i<$col_num + 1; i++))
 
             # Check for duplicates in the .meta file
             # We use -f to make sure the file exists before trying to read it (avoids error on the very first column)
-            elif [ -f "./databases/student/$table_name.meta" ] && cut -d: -f1 "./databases/student/$table_name.meta" | grep -q "$col_name"; then
+            elif [ -f "./databases/$DBName/$table_name.meta" ] && cut -d: -f1 "./databases/$DBName/$table_name.meta" | grep -q "$col_name"; then
                 echo "Error: Column Name '$col_name' already exists!"
 
             else
@@ -91,7 +91,7 @@ for ((i=1; i<$col_num + 1; i++))
             then
                 echo "this is your last column, it will be primary key by default"
 				pk="pk"
-				echo $col_name:$data_type:pk >> databases/student/$table_name.meta
+				echo $col_name:$data_type:pk >> databases/$DBName/$table_name.meta
             
             # Assigning it as primary or no ?
 			else
