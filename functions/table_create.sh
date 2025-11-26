@@ -9,7 +9,7 @@ while true; do
 
     if [ -z "$table_name" ]; then
         echo "Error: Table Name cannot be empty."
-    elif [ -f "./databases/student/$table_name" ]; then
+    elif [ -f "./databases/$DBName/$table_name" ]; then
         echo "Error: Table Name already exists!"
     elif ! [[ "$table_name" =~ ^[a-zA-Z0-9_]+$ ]]; then
         echo "Error: Invalid Table Name. No spaces or special characters allowed."
@@ -39,8 +39,8 @@ done
 
 
 # Create table and meta file
-touch databases/student/$table_name
-touch databases/student/$table_name.meta
+touch databases/$DBName/$table_name
+touch databases/$DBName/$table_name.meta
 pk=""
 
 # Loop over to get Column names and the DataType
@@ -101,23 +101,23 @@ for ((i=1; i<$col_num + 1; i++))
 						case $var in
 						yes ) 
 							pk="pk"
-							echo $col_name:$data_type:pk >> databases/student/$table_name.meta
+							echo $col_name:$data_type:pk >> databases/$DBName/$table_name.meta
 						break;;
 						no )
-							echo $col_name:$data_type >> databases/student/$table_name.meta
+							echo $col_name:$data_type >> databases/$DBName/$table_name.meta
 						break;;
 						* ) echo "Wrong Choice" ;;
 						esac
 					done
 			fi
         else
-            echo $col_name:$data_type >> databases/student/$table_name.meta
+            echo $col_name:$data_type >> databases/$DBName/$table_name.meta
         fi
         
     done
 
 
-meta_file="./databases/student/$table_name.meta"
+meta_file="./databases/$DBName/$table_name.meta"
 # Create a temporary file to store the sorted data
 touch "$meta_file.tmp"
 
@@ -140,4 +140,4 @@ for item in $(cut -d: -f1 "$meta_file"); do
 done
 
 # Write the final result to the file
-echo "$row" >> "./databases/student/$table_name"
+echo "$row" >> "./databases/$DBName/$table_name"

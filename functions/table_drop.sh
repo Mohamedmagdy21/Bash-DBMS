@@ -21,8 +21,8 @@ while true; do
     read intent
 
     if [ $intent == "yes" ]; then
-		rm databases/student/$table_name
-        rm databases/student/$table_name.meta
+		rm databases/$DBName/$table_name
+        rm databases/$DBName/$table_name.meta
 		break
     else
         # exit the code
