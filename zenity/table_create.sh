@@ -1,18 +1,21 @@
 #! /usr/bin/bash
+
 # Make a new table by entering table name, number of columns
 # Then making a table file, and a meta file
 
 # Get input from user and checking for edge cases
+
 while true; do
-    echo -n "Enter Table Name: "
-    read table_name
+    table_name=$(zenity --entry --text="Enter Table Name: ")
+
+	if [ $? -ne 0 ]; then return; fi
 
     if [ -z "$table_name" ]; then
-        echo "Error: Table Name cannot be empty."
+        zenity --error --text="Error: Table Name cannot be empty."
     elif [ -f "./databases/$DBName/$table_name" ]; then
-        echo "Error: Table Name already exists!"
+        zenity --error --text="Error: Table Name already exists!"
     elif ! [[ "$table_name" =~ ^[a-zA-Z0-9_]+$ ]]; then
-        echo "Error: Invalid Table Name. No spaces or special characters allowed."
+        zenity --error --text="Error: Invalid Table Name. No spaces or special characters allowed."
     else
         # Input is valid
         break
@@ -20,23 +23,21 @@ while true; do
 done
 
 while true; do
-    echo -n "Enter Number of Columns: "
-    read col_num
+    col_num=$(zenity --entry --text="Enter Number of Columns: ")
+
+	if [ $? -ne 0 ]; then return; fi
 
     if [ -z "$col_num" ]; then
-        echo "Error: Input cannot be empty."
+        zenity --error --text="Error: Input cannot be empty."
     elif ! [[ "$col_num" =~ ^[0-9]+$ ]]; then
-        echo "Error: Invalid input. Integers only."
+        zenity --error --text="Error: Invalid input. Integers only."
     elif [ "$col_num" -le 0 ]; then
-        echo "Error: Column number must be greater than 0."
+        zenity --error --text="Error: Column number must be greater than 0."
     else
         # Input is valid
         break
     fi
 done
-
-
-
 
 # Create table and meta file
 touch databases/$DBName/$table_name
@@ -46,22 +47,21 @@ pk=""
 # Loop over to get Column names and the DataType
 for ((i=1; i<$col_num + 1; i++))
     do
-        
 
         while true; do
-            echo "#$i Column"
-            echo -n "Enter Column Name: "
-            read col_name
+            col_name=$(zenity --entry --title="#$i Column" --text="Enter Column Name: ")
+
+			if [ $? -ne 0 ]; then return; fi
 
             if [ -z "$col_name" ]; then
-                echo "Error: Column Name cannot be empty."
+                zenity --error --text="Error: Column Name cannot be empty."
             elif ! [[ "$col_name" =~ ^[a-zA-Z0-9_]+$ ]]; then
-                echo "Error: Invalid Column Name. No spaces or special characters allowed."
+                zenity --error --text="Error: Invalid Column Name. No spaces or special characters allowed."
 
-            # Check for duplicates in the .meta file
+			# Check for duplicates in the .meta file
             # We use -f to make sure the file exists before trying to read it (avoids error on the very first column)
             elif [ -f "./databases/$DBName/$table_name.meta" ] && cut -d: -f1 "./databases/$DBName/$table_name.meta" | grep -q "$col_name"; then
-                echo "Error: Column Name '$col_name' already exists!"
+                zenity --error --text="Error: Column Name '$col_name' already exists!"
 
             else
                 # Input is valid
@@ -69,46 +69,34 @@ for ((i=1; i<$col_num + 1; i++))
             fi
         done
 
-        # Data Type
-        echo "Please choose the data type: "
-        select var in "int" "str"
-        do
-            case $var in
-                int ) data_type="int";break;;
-                str ) data_type="str";break;;
-                * ) echo "Wrong Choice" ;;
-            esac
-        done
 
-        # Deciding if that Column is the Primary Key
+		# Data Type
+        data_type=$(zenity --list --column="Type" --text="Please choose the data type: " "int" "str")
+        
+        if [ -z "$data_type" ]; then
+             # Default if cancelled
+             data_type="str"
+        fi
 
-
+		# Deciding if that Column is the Primary Key
         if [[ $pk == "" ]]; 
-
         then
             if [[ $i == $col_num  ]]
             then
-                echo "this is your last column, it will be primary key by default"
-				pk="pk"
-				echo $col_name:$data_type:pk >> databases/$DBName/$table_name.meta
+                zenity --info --text="this is your last column, it will be primary key by default"
+                pk="pk"
+                echo $col_name:$data_type:pk >> databases/$DBName/$table_name.meta
             
-            # Assigning it as primary or no ?
-			else
-				echo -e "Make it Primary Key ? "
-				select var in "yes" "no"
-					do
-						case $var in
-						yes ) 
-							pk="pk"
-							echo $col_name:$data_type:pk >> databases/$DBName/$table_name.meta
-						break;;
-						no )
-							echo $col_name:$data_type >> databases/$DBName/$table_name.meta
-						break;;
-						* ) echo "Wrong Choice" ;;
-						esac
-					done
-			fi
+			# Assigning it as primary or no ?
+            else
+                zenity --question --text="Make it Primary Key ? "
+                if [ $? -eq 0 ]; then
+                    pk="pk"
+                    echo $col_name:$data_type:pk >> databases/$DBName/$table_name.meta
+                else
+                    echo $col_name:$data_type >> databases/$DBName/$table_name.meta
+                fi
+            fi
         else
             echo $col_name:$data_type >> databases/$DBName/$table_name.meta
         fi
@@ -140,3 +128,4 @@ done
 
 # Write the final result to the file
 echo "$row" >> "./databases/$DBName/$table_name"
+zenity --info --text="Table created successfully"
