@@ -1,16 +1,35 @@
-in 
-echo "--- Existing Databases ---"
-    echo "Enter table you wish to list: "
-
-why are we listing only one table and not all of them like i did in table_list.sh : DONE
+if i enter wrong column name or table name, it breaks out of the script and i have to enter number 5 again to return to it
+i believe the solution is to make it "continue" instead of "break", but you must remove the clear command at the start
 
 
+i tried make it continue, but there is an issue:
+i think the whole logic should be wrapped inside a while because if i enter wrong column name, table name,etc
+it goes to the next entry anyway
+eg.
+This your 1 entry
+-----------------------------------------------
+Enter table's name : 
+ 
+dsfgdsfg
+No table was found.
+This your 2 entry
+-----------------------------------------------
+Enter table's name : 
+ 
+bxvcbxcvbxcvb
+No table was found.
+This your 3 entry
 
-in insertion, if i write string and some numbers it says wrong, i believe this should be okay and we did it in the lab  : DONE
 
 
 
-enter return to continue, if i enter anything it will continue
+very minor note: when printing a column, it looks like this
+enter the name of the column you wish to select:
+name
+name
+sherif
+NULL
+ahmed
+gemy123
 
-
-do you wish to continue(y/n) should be the same across all scripts
+maybe add column number to it and a border at the start ?
