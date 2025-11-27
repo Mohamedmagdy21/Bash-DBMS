@@ -2,7 +2,7 @@
 
 PS3="DMS>>"
 
-echo "we are here"
+
 while true
  do
  clear
@@ -47,11 +47,11 @@ while true
                    
                if [ "$colType" == "str" ]; then
                
-                 if ! [[ "$input" =~ ^[A-Za-z]+$ ]]; then
-                  
-                  echo "invalid input, input should be a string"
-                  continue 
-                  fi
+                 if ! [[ "$input" =~ ^[A-Za-z][A-Za-z0-9]*$ ]]; then
+                    echo "Invalid input: must begin with a letter and contain only letters or digits"
+                     continue
+                 fi
+
                fi   
                
                if [ "$isPk" == true ]; then
@@ -93,13 +93,34 @@ while true
                 
          fi
        
-         echo " Do you wish to continue (Y/N)?"
-         read inp
-         if [ "$inp" == "Y" ]; then
-           continue
-         else
-            break
-         fi     
+        # echo " Do you wish to continue (Y/N)?"
+        # read inp
+        # if [ "$inp" == "Y" ]; then
+        #   continue
+        # else
+        #    break
+        # fi  
+        
+        echo
+        echo "---------------------------------------------"
+        echo " Exit this selection?"
+        echo "---------------------------------------------"
+
+ 
+        select var in "yes" "no"                 # exit and return back to the previous menu
+		do
+	         case $var in
+			yes ) 
+				echo "Exiting..."
+				unset output
+				break 2;;
+			no )
+				echo "Continuing..."
+				break;;
+				
+			* ) echo "Wrong Choice" ;;
+			esac
+		  done   
       
     
          

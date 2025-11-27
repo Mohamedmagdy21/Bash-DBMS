@@ -2,11 +2,11 @@ in
 echo "--- Existing Databases ---"
     echo "Enter table you wish to list: "
 
-why are we listing only one table and not all of them like i did in table_list.sh
+why are we listing only one table and not all of them like i did in table_list.sh : DONE
 
 
 
-in insertion, if i write string and some numbers it says wrong, i believe this should be okay and we did it in the lab
+in insertion, if i write string and some numbers it says wrong, i believe this should be okay and we did it in the lab  : DONE
 
 
 

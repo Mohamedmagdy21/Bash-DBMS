@@ -15,25 +15,18 @@ while true
  echo "Enter 5 to select from table:"
  echo "enter 6 to update table:"
  echo "enter 7 to delete from table:"
+ echo "enter 8 to return to previous list"
  echo -e "\n"
  echo -e "Enter your selection \c"
  
   read option
 
   case "$option" in
-  1) source ./functions/table_create.sh;;
+    1) source ./functions/table_create.sh;;
   
-  2)echo "--- Existing Databases ---"
-    echo "Enter table you wish to list: "
-      read table
-       if [ -z "$(ls -A ./databases/$DBName/$table)" ]; then
-           echo "No table was found."
-       else
-           # FIX: Lists directories only and removes the trailing slash
-           ls -l ./databases/$DBName/$table
-       fi
-       echo "--------------------------"
-       ;;
+    2)echo "--- Existing Databases ---"
+      source ./functions/table_list.sh ;;
+       
        
     3) source ./functions/table_drop.sh;;
     
@@ -43,7 +36,9 @@ while true
     
     6) source ./functions/data_update.sh;;
 
-	7) source ./functions/data_delete.sh;;
+    7) source ./functions/data_delete.sh;;
+    
+    8) break;;
   
   esac
   echo -e "enter return to continue \c"

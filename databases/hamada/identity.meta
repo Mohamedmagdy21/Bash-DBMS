@@ -1,0 +1,3 @@
+job:str:pk
+age:int
+status:str

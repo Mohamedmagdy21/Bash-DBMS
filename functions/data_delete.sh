@@ -23,12 +23,17 @@ do
 		echo "Table $table_name has Primary Key $pk of Type $pk_type"
 
 		while true; do
+		        echo
+		        echo "---------------------------------------------------"
 			echo "Enter the Primary key of the row you want to delete"
 			read pk_delete
 
 			if [ -z "$pk_delete" ]; then
+			        echo
+			        echo"--------------------------------------"
 				echo "Error: Primary key cannot be empty."
 			elif [[ $pk_type == "int" && ! "$pk_delete" =~ ^[0-9]+$ ]]; then
+			        echo"--------------------------------------------"
 				echo "Error: Invalid Primary Key. Integers only."
 			elif [[ $pk_type == "str" && ! "$pk_delete" =~ ^[a-zA-Z0-9_]+$ ]]; then
 				echo "Error: Invalid Primary Key. Use String and No spaces or special characters allowed."
