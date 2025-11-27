@@ -32,7 +32,7 @@ while true
 
  read table
 
- if [ -z "$(ls -A ./databases/$DBName/$table)" ]; then        # check availability of the table
+ if [ ! -f "./databases/$DBName/$table" ]; then        # check availability of the table
            echo "No table was found."
            break;
  fi
