@@ -41,7 +41,47 @@ while true
     8) break;;
   
   esac
-  echo -e "enter return to continue \c"
-  read inp
+  #echo -e "enter return to continue \c"
+  #read inp
+  #-------------------------------------------------------------------------------------------
+ echo
+ echo "---------------------------------------------"
+ echo " Exit this connect selection?"
+ echo "---------------------------------------------"
+
+ 
+ select var in "yes" "no"                 # exit and return back to the previous menu
+		do
+			case $var in
+			yes ) 
+				echo "Exiting..."
+				
+				break 2;;
+			no )
+				echo "Continuing..."
+				break;;
+				
+			* ) echo "Wrong Choice" ;;
+			esac
+		done
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  #---------------------------------------------------------------------------------------------
+  
+  
+  
+  
+  
+  
+  
+  
 
 done

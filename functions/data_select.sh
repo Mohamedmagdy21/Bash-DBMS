@@ -33,9 +33,32 @@ while true
  read table
 
  if [ ! -f "./databases/$DBName/$table" ]; then        # check availability of the table
-           echo "No table was found."
-           break;
- fi
+           echo
+           echo "No table was not found."
+           #break;
+           
+           echo
+           echo "---------------------------------------------"
+           echo " Exit this selection?"
+           echo "---------------------------------------------"
+
+ 
+            select var in "yes" "no"                 # exit and return back to the previous menu
+		do
+			case $var in
+			yes ) 
+				echo "Exiting..."
+				unset output
+				break 2 ;;
+			no )
+				echo "Continuing..."
+				continue 2;;
+				
+			* ) echo "Wrong Choice" ;;
+			esac
+		done
+     
+   fi
  
  
  header=$(awk -F':' '{print $1}' ./databases/$DBName/$table.meta | paste -sd'|' -)  
@@ -76,8 +99,40 @@ echo
      read colName
      
         if ! echo "$header" | tr '|' '\n' | grep -qx "$colName"; then   # check if column exists
+           echo
            echo "Column '$colName' does NOT exist!"
-           break
+           
+           #---------------------------------------------------------------------------------
+           
+            echo
+            echo "---------------------------------------------"
+            echo " Exit this selection?"
+            echo "---------------------------------------------"
+
+ 
+           select var in "yes" "no"                 # exit and return back to the previous menu
+		do
+			case $var in
+			yes ) 
+				echo "Exiting..."
+				unset output
+				break 2;;
+			no )
+				echo "Continuing..."
+				break;;
+				
+			* ) echo "Wrong Choice" ;;
+			esac
+		done
+
+           
+           
+           
+           
+           
+           
+           #--------------------------------------------------------------------------------- 
+           continue
         fi
         
         
@@ -93,8 +148,14 @@ echo
             break
           fi
        done
+      echo "------------------------------------------------------------------------------"
+      echo "$colName : column number: $colIndex"
+      echo "------------------------------------------------------------------------------"
+      #selected=$(cut -d '|' -f"$colIndex" "./databases/$DBName/$table" | column -t -s '|')
+      selected=$(cut -d '|' -f"$colIndex" "./databases/$DBName/$table" \
+    | tail -n +2 \
+    | column -t -s '|')
 
-      selected=$(cut -d '|' -f"$colIndex" "./databases/$DBName/$table" | column -t -s '|')
       echo "$selected" 
       output[$entry]="$selected >>>>>>>>>>>> from table ./databases/$DBName/$table , SELECT COLUMN $colName"   
         ;;            # whole column display
@@ -122,7 +183,37 @@ echo
         if [ "$found" == false ]; then
         
           echo "Match not found" 
-          read -p "Press Enter to continue..."
+          
+          #-----------------------------------------------------------------------------------
+          
+           echo
+           echo "---------------------------------------------"
+           echo " Exit this selection?"
+           echo "---------------------------------------------"
+
+ 
+           select var in "yes" "no"                 # exit and return back to the previous menu
+		do
+			case $var in
+			yes ) 
+				echo "Exiting..."
+				unset output
+				break 2;;
+			no )
+				echo "Continuing..."
+				break;;
+				
+			* ) echo "Wrong Choice" ;;
+			esac
+		done
+
+          
+          
+          
+          
+          
+          
+          #------------------------------------------------------------------------------------
           continue
           
          
@@ -140,11 +231,7 @@ echo
        fi
        unset output
        break;;
-       
-    
-    
    
- 
   
  esac
   
