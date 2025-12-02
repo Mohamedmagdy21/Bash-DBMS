@@ -34,7 +34,7 @@ while true
                fi
                read input
                if [ -z "$input" ]; then
-                 echo "Error: Table Name cannot be empty."
+                 echo "Error: Primary Key cannot be empty."
                  continue
                fi  
                if [ "$colType" == "int" ]; then

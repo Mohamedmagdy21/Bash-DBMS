@@ -172,7 +172,7 @@ echo
          val=$(echo "$line" | cut -d'|' -f"$pkLine")       # extract value in  the primary key's field only 
          
          if [ "$val" == "$value" ]; then
-           echo "Match found in row $i:"
+           echo "Match found in row $(($i - 1)):"
            echo "$line"
            output[$entry]="$line >>>>>>>>>>>> from table ./databases/$DBName/$table"
            found=true

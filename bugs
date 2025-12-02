@@ -33,3 +33,57 @@ ahmed
 gemy123
 
 maybe add column number to it and a border at the start ?
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------------
+new bugs, this is for you and me, read the first number and yours are numbers: 2, 3, 4, 5, in number 4, make sure that dot couldn't be written in your files (data_select,data_insert,table_drop) and i will do the same in my files
+
+1-in connect_table, it is very annoying having to enter a choice everytime , so i reverted it back to press anything to continue
+
+2-miss checking if table exists in table_drop.sh
+
+
+3-in insert, entering wrong table name results in error
+Enter table you wish to insert in: 
+1
+ls: cannot access './databases/student/1': No such file or directory
+No table was found.
+
+4- we need to handle .meta file insertion by specifiying there is no dots exists in entering names, happened in insert
+Enter table you wish to insert in: 
+zxcv.meta
+grep: ./databases/student/zxcv.meta.meta: No such file or directory
+Column Number: 0
+sed: -e expression #1, char 2: : doesn't want any addresses
+⚠️ ERROR at line 86: sed -i "${firstEmpty}s/^$/$row/" "./databases/$DBName/$table"
+
+5-in table_drop
+if [ $intent == "yes" ]; then
+		rm databases/$DBName/$table_name
+        rm databases/$DBName/$table_name.meta
+		break
+    else
+        # exit the code
+        break
+if you don't type yes it gets this error,
+Are you sure you want to remove this table ?
+./functions/table_drop.sh: line 23: [: ==: unary operator expected
+maybe its best to make yes or no like other scripts ?
+
+
+6-in data_update.sh and data_delete.sh , check for column exists or not before reading it's datatype
+
+
+7- in create_table, if you only enter one column, it generates an error as code logic expects more than one
+
+8-in data_delete, check if primary key exists or no
+
+9- in data_delete, if there is more than on NULL primary key, all logic collapse, make sure if user choose primary key to be deleted , entire row gets deleted
+
+10- in zenity, add a check to see if table is empty or not in select, update and delete
