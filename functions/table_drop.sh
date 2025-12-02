@@ -10,6 +10,9 @@ while true; do
         echo "Error: Table Name cannot be empty."
     elif ! [[ "$table_name" =~ ^[a-zA-Z0-9_]+$ ]]; then
         echo "Error: Invalid Table Name. No spaces or special characters allowed."
+    elif [ ! -f "./databases/$DBName/$table_name" ]; then
+        echo "Table does not exist !"   
+        
     else
         # Input is valid
         break
@@ -17,15 +20,20 @@ while true; do
 done
 
 while true; do
-    echo -n "Are you sure you want to remove this table ?"
+    echo
+    echo "---------------------------------------------------------"
+    echo -n "Are you sure you want to remove this table ? (Y/N)"
     read intent
 
-    if [ $intent == "yes" ]; then
-		rm databases/$DBName/$table_name
+    if [ "$intent" = "Y" ]; then
+	rm databases/$DBName/$table_name
         rm databases/$DBName/$table_name.meta
-		break
-    else
+	break
+    elif [ "$intent" = "N" ]; then
         # exit the code
         break
+    else
+      continue    
+        
     fi
 done

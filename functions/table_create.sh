@@ -44,7 +44,7 @@ touch databases/$DBName/$table_name.meta
 pk=""
 
 # Loop over to get Column names and the DataType
-for ((i=1; i<$col_num + 1; i++))
+for ((i=1; i<=$col_num ; i++))
     do
         
 
@@ -124,7 +124,10 @@ touch "$meta_file.tmp"
 grep -i ":pk$" "$meta_file" >> "$meta_file.tmp"
 
 # Find lines that DO NOT (-v) contain 'pk' and append them to the temp file
-grep -v -i ":pk$" "$meta_file" >> "$meta_file.tmp"
+if [ "$col_num" -gt 1 ]; then
+   echo "here is col_num $col_num"
+   grep -v -i ":pk$" "$meta_file" >> "$meta_file.tmp"
+fi   
 
 # Overwrite the original file with the reordered temp file
 mv "$meta_file.tmp" "$meta_file"

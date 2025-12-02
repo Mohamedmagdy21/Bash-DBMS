@@ -10,14 +10,17 @@ while true
      read table
     
 
-       if [ -z "$(ls -A ./databases/$DBName/$table)" ]; then
+       if [ ! -f "./databases/$DBName/$table" ]; then
            echo "No table was found."
            break;
+       elif [[ "$table" =~ [^a-zA-Z0-9_] ]]; then
+            echo "Error: Table name '$table' contains special characters or spaces. Only      letters, numbers, and underscores are allowed."
+    break    
        else
            row=""
            sep=":"
            colsNum=$(grep -v '^$' "./databases/$DBName/$table.meta" | wc -l)
-           echo "Column Number: $colsNum"
+           echo "Number of Columns: $colsNum"
            for i in $(seq 1 $colsNum)
              do
              lineContent=$(sed -n "${i}p" < ./databases/$DBName/$table.meta )

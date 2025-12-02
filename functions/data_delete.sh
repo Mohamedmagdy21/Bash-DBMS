@@ -20,13 +20,28 @@ do
     else
 		pk=$(sed -n "/pk$/p" databases/$DBName/$table_name.meta | cut -d: -f1)
 		pk_type=$(sed -n "/pk$/p" databases/$DBName/$table_name.meta | cut -d: -f2)
-		echo "Table $table_name has Primary Key $pk of Type $pk_type"
+		pk_row_number=$(grep -n "pk$" databases/$DBName/$table_name.meta | head -n 1 | cut -d: -f1)
+		echo "Table $table_name has Primary Key $pk of Type $pk_type at column $pk_row_number"
 
 		while true; do
 		        echo
 		        echo "---------------------------------------------------"
 			echo "Enter the Primary key of the row you want to delete"
 			read pk_delete
+			exists='False'
+			
+			# for i in pk_column_field which is in table_name
+			    # if pk_delete==i
+			    # exists = true 
+			    # break
+			    # else continue
+			    
+			
+			
+			
+			#-------------------------------------------------------------------    
+			
+			
 
 			if [ -z "$pk_delete" ]; then
 			        echo
