@@ -1,0 +1,5 @@
+ssn:int:pk
+name:str
+teaches:str
+telephone:int
+salary:int

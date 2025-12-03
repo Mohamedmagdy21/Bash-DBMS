@@ -24,7 +24,14 @@ do
         # Handle cancel
         break
     fi
-    
+    num_lines=$(wc -l < "./databases/$DBName/$table_name")
+
+	# If lines are 1 (just header) or 0 (empty file), it's empty
+	if [ "$num_lines" -le 1 ]; then
+		zenity --error --text="Table '$table_name' is empty. No data rows found."
+		
+		return 
+	fi
     if [ ! -f "./databases/$DBName/$table_name" ]; then
         zenity --error --text="No table was found."
         continue;

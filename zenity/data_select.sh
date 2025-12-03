@@ -31,7 +31,14 @@ while true
         $(ls ./databases/$DBName | grep -v .meta$) \
         --text="Select table's name: ")
 
- 
+ num_lines=$(wc -l < "./databases/$DBName/$table")
+
+ # If lines are 1 (just header) or 0 (empty file), it's empty
+ if [ "$num_lines" -le 1 ]; then
+	 zenity --error --text="Table '$table' is empty. No data rows found."
+	
+	 return 
+ fi
  
  header=$(awk -F':' '{print $1}' ./databases/$DBName/$table.meta | paste -sd'|' -)  
  

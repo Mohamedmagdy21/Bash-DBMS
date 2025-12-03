@@ -16,7 +16,46 @@ do
     
 	if [ ! -f "./databases/$DBName/$table_name" ]; then
 		echo "No table was found."
-		continue;
+		echo "---------------------------------------------"
+		echo " Exit this selection?"
+		echo "---------------------------------------------"
+
+
+		select var in "yes" "no"                 # exit and return back to the previous menu
+		do
+			case $var in
+			yes ) 
+				echo "Exiting..."
+				unset output
+				break 2 ;;
+			no )
+				echo "Continuing..."
+				continue 2;;
+				
+			* ) echo "Wrong Choice" ;;
+			esac
+		done
+	elif [[ "$table_name" =~ [^a-zA-Z0-9_] ]]; then
+		echo "Error: Table name '$table_name' contains special characters or spaces. Only letters, numbers, and underscores are allowed."
+		echo "---------------------------------------------"
+		echo " Exit this selection?"
+		echo "---------------------------------------------"
+
+
+		select var in "yes" "no"                 # exit and return back to the previous menu
+		do
+			case $var in
+			yes ) 
+				echo "Exiting..."
+				unset output
+				break 2 ;;
+			no )
+				echo "Continuing..."
+				continue 2;;
+				
+			* ) echo "Wrong Choice" ;;
+			esac
+		done
     else
 		pk=$(sed -n "/pk$/p" databases/$DBName/$table_name.meta | cut -d: -f1)
 		pk_type=$(sed -n "/pk$/p" databases/$DBName/$table_name.meta | cut -d: -f2)
@@ -45,13 +84,15 @@ do
 
 			if [ -z "$pk_delete" ]; then
 			        echo
-			        echo"--------------------------------------"
+			        echo "--------------------------------------"
 				echo "Error: Primary key cannot be empty."
 			elif [[ $pk_type == "int" && ! "$pk_delete" =~ ^[0-9]+$ ]]; then
 			        echo"--------------------------------------------"
 				echo "Error: Invalid Primary Key. Integers only."
 			elif [[ $pk_type == "str" && ! "$pk_delete" =~ ^[a-zA-Z0-9_]+$ ]]; then
 				echo "Error: Invalid Primary Key. Use String and No spaces or special characters allowed."
+			elif ! grep -q "^$pk_delete|" "databases/$DBName/$table_name"; then
+        		echo "Error: Primary Key '$pk_delete' does not exist in the table."
 			else
 				# Input is valid
 				break
@@ -75,6 +116,12 @@ do
 						echo "Error: Column Name cannot be empty."
 					elif ! [[ "$col_name" =~ ^[a-zA-Z0-9_]+$ ]]; then
 						echo "Error: Invalid Column Name. No spaces or special characters allowed."
+					elif ! cut -d: -f1 ./databases/$DBName/$table_name.meta | grep $col_name; then
+        				echo "Error: Invalid Column Name. It doesn't exist"
+					elif [[ $col_name == $pk ]]; then
+						echo "You entered the Primary Key of the row $pk, the entire row will be deleted"
+						sed -i "/^$pk_delete|/d" databases/$DBName/$table_name
+						break 2
 					else
 						# Input is valid
 						break

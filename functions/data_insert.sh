@@ -14,7 +14,7 @@ while true
            echo "No table was found."
            break;
        elif [[ "$table" =~ [^a-zA-Z0-9_] ]]; then
-            echo "Error: Table name '$table' contains special characters or spaces. Only      letters, numbers, and underscores are allowed."
+            echo "Error: Table name '$table' contains special characters or spaces. Only letters, numbers, and underscores are allowed."
     break    
        else
            row=""

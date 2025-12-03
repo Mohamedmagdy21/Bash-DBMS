@@ -31,35 +31,55 @@ while true
  echo -e "Enter table's name : \n "
 
  read table
+if [[ "$table" =~ [^a-zA-Z0-9_] ]]; then
+    echo "Error: Table name '$table' contains special characters or spaces. Only letters, numbers, and underscores are allowed."
+	echo "---------------------------------------------"
+	echo " Exit this selection?"
+	echo "---------------------------------------------"
 
- if [ ! -f "./databases/$DBName/$table" ]; then        # check availability of the table
-           echo
-           echo "No table was not found."
-           #break;
-           
-           echo
-           echo "---------------------------------------------"
-           echo " Exit this selection?"
-           echo "---------------------------------------------"
 
- 
-            select var in "yes" "no"                 # exit and return back to the previous menu
-		do
-			case $var in
-			yes ) 
-				echo "Exiting..."
-				unset output
-				break 2 ;;
-			no )
-				echo "Continuing..."
-				continue 2;;
-				
-			* ) echo "Wrong Choice" ;;
-			esac
-		done
-     
-   fi
- 
+	select var in "yes" "no"                 # exit and return back to the previous menu
+	do
+		case $var in
+		yes ) 
+			echo "Exiting..."
+			unset output
+			break 2 ;;
+		no )
+			echo "Continuing..."
+			continue 2;;
+			
+		* ) echo "Wrong Choice" ;;
+		esac
+	done
+elif [ ! -f "./databases/$DBName/$table" ]; then        # check availability of the table
+	echo
+	echo "No table was not found."
+	#break;
+	
+	echo
+	echo "---------------------------------------------"
+	echo " Exit this selection?"
+	echo "---------------------------------------------"
+
+
+	select var in "yes" "no"                 # exit and return back to the previous menu
+	do
+		case $var in
+		yes ) 
+			echo "Exiting..."
+			unset output
+			break 2 ;;
+		no )
+			echo "Continuing..."
+			continue 2;;
+			
+		* ) echo "Wrong Choice" ;;
+		esac
+	done
+	
+fi
+
  
  header=$(awk -F':' '{print $1}' ./databases/$DBName/$table.meta | paste -sd'|' -)  
  
